@@ -13,7 +13,8 @@ namespace workWithGetDTsClassesFile
         long personalAccount;
         List<TDid> tdsList = new List<TDid>();
         List<long> tdcWithLookedSrv = new List<long>();
-        public void processInputData(long inputPA, GetTDsOutput inputData)
+
+        public PAid(long inputPA, GetTDsOutput inputData)
         {
             this.personalAccount = inputPA;
 
@@ -25,6 +26,7 @@ namespace workWithGetDTsClassesFile
                 tdsList.Add(oneTDid);
             }
         }
+
         public void writePAtoConsole()
         {
             Console.WriteLine($"TDIds with Services for PA {this.personalAccount}:\n");
@@ -40,7 +42,7 @@ namespace workWithGetDTsClassesFile
         {
             if (!string.IsNullOrEmpty(lookedSrv))
             {
-                Console.WriteLine($"\n\nThe TDs which have the valid service {lookedSrv}:");
+                Console.WriteLine($"\n\nThe TD(s) which have the valid service {lookedSrv}:");
                 tdcWithLookedSrv.ForEach(i => Console.Write("{0}\n", i));
             }
         }
@@ -49,7 +51,7 @@ namespace workWithGetDTsClassesFile
             StreamWriter swLookSrv = sw;
             if (!string.IsNullOrEmpty(lookedSrv))
             {
-                swLookSrv.WriteLine($"\n\nThe TDs which have the valid service {lookedSrv}:");
+                swLookSrv.WriteLine($"\n\nThe TD(s) which have the valid service {lookedSrv}:");
                 tdcWithLookedSrv.ForEach(i => swLookSrv.Write("{0}\n", i));
             }
         }
@@ -66,18 +68,20 @@ namespace workWithGetDTsClassesFile
         }
         public void sortTDsList(string sortTDsType, string sortSrvsType)
         {
-            if (sortTDsType == "asc")
-            {
-                tdsList = tdsList.OrderBy(p => p.returnTDid()).ToList();
-                tdcWithLookedSrv = tdcWithLookedSrv.OrderBy(p => p).ToList();
+            if (!string.IsNullOrEmpty(sortTDsType))
+                if (sortTDsType == "asc")
+                {
+                    tdsList = tdsList.OrderBy(p => p.returnTDid()).ToList();
+                    tdcWithLookedSrv = tdcWithLookedSrv.OrderBy(p => p).ToList();
+                }
+                else if (sortTDsType == "desc")
+                {
+                    tdsList = tdsList.OrderByDescending(p => p.returnTDid()).ToList();
+                    tdcWithLookedSrv = tdcWithLookedSrv.OrderByDescending(p => p).ToList();
+                }
+
+            if (!string.IsNullOrEmpty(sortSrvsType))
                 this.tdsList.ForEach(i => i.sortSrvList(sortSrvsType));
-            }
-            else if (sortTDsType == "desc")
-            {
-                tdsList = tdsList.OrderByDescending(p => p.returnTDid()).ToList();
-                tdcWithLookedSrv = tdcWithLookedSrv.OrderByDescending(p => p).ToList();
-                this.tdsList.ForEach(i => i.sortSrvList(sortSrvsType));
-            }
         }
     }
 }
