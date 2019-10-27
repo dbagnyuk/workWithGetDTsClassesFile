@@ -91,6 +91,18 @@ namespace workWithGetDTsClassesFile
             }
             Console.Clear();
 
+            GetTDsOutput scaOutput = null;
+            try
+            {
+                ScaClient scaClient = new ScaClient("ConfigurationService_ISca", new EndpointAddress("http://msk-dev-foris:8106/SCA"));
+                scaOutput = scaClient.GetTDs(new GetTDsInput() { PANumber = inputedPA });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                System.Environment.Exit(1);
+            }
+
             fileName = @inputedPA + ".txt";
             FileStream fileStream = null;
             StreamWriter streamWriter = null;
@@ -114,18 +126,6 @@ namespace workWithGetDTsClassesFile
 
                 if (writeFile)
                     streamWriter = new StreamWriter(fileStream);
-            }
-
-            GetTDsOutput scaOutput = null;
-            try
-            {
-                ScaClient scaClient = new ScaClient("ConfigurationService_ISca", new EndpointAddress("http://msk-dev-foris:8106/SCA"));
-                scaOutput = scaClient.GetTDs(new GetTDsInput() { PANumber = inputedPA });
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                System.Environment.Exit(1);
             }
 
             PAid searchedPA = new PAid(inputedPA, scaOutput);
