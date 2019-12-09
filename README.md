@@ -1,5 +1,5 @@
 # workWithGetDTsClassesFile
-
+/?
 Usage:
         workWithGetDTsClassesFile.exe PA [Srv] [/f {Path}] [/c]
                                          [/st {asc|desc}] [/ss {asc|desc}]
@@ -22,3 +22,4 @@ Optional:
 
 Example:
         workWithGetDTsClassesFile.exe 277300065848 TEST666 /f c:\ /c /st desc /ss desc
+/?
